@@ -5,6 +5,8 @@
 
 #### Tools
 
+> Vagrant -> Docker -> \[MySQL, Redis\]
+
 1. The Foundation *Vagrant*
 
     > Almost all the tools were installed to the VM, including *Docker*
@@ -78,6 +80,41 @@
     sudo systemctl start docker
     ```
 
+3. MySQL
+
+    ```bash
+    # 1. Get MySQL
+    sudo docker pull mysql:5.7
+    sudo docker images
+
+    sudo docker container ls
+    sudo docker container stop mysql5dot7
+    sudo docker container rm   mysql5dot7
+
+
+    # 2. Run MySQL
+    sudo docker run -p 3306:3306 --name mysql5dot7 \
+        -v /mydata/mysql/log:/var/log/mysql \
+        -v /mydata/mysql/data:/var/lib/mysql \
+        -v /mydata/mysql/conf:/etc/mysql \
+        -e MYSQL_ROOT_PASSWORD=root \
+        -d mysql:5.7
+
+
+    # 3. For Vagrant
+    # Choose the network interface which is in the same LAN as your host
+
+
+    # 4. For Vagrantfile
+    # Exposing Docker-in-VM-Vagrant the port to the host
+    config.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
+
+
+    # 5. Connect to MySQL-in-Docker-in-Vagrant
+    ```
+
+4. Redis
+
 -----
 
 ## References
@@ -94,4 +131,13 @@
 
     vagrant halt        # shutdown
     vagrant reload      # reboot
+    ```
+
+2. Docker
+
+    ```bash
+    sudo docker container ps -a
+    sudo docker container restart mysql5dot7
+    
+    sudo docker exec -it mysql5dot7 /bin/bash
     ```
