@@ -1,7 +1,33 @@
 
-### Foreword
+## Prep
 
-- Learn to build a real-world project by following [this tutorial](https://www.youtube.com/watch?v=Hd38R8w2sY4&list=PLmOn9nNkQxJEwPjhNwGliP_bw3RjkgFCf&index=1)
-- Architecture
+> macOS 
 
-    <img src="./dev_pic/snip_2022-09-29_20-00-55.jpg" alt="Architecture of the GuLi Mall" width="60%" height="40%">
+#### Tools
+
+1. Vagrant
+
+    - Get it working
+
+    ```bash
+    brew install vagrant    # use the GUI way if you prefer
+
+    vagrant --version       # check if installed correctly
+
+    vagrant init centos/7   # config file
+    vagrant up              # download, config and boot
+    vagrant ssh             # ssh into the virtual machine
+
+    - Commonly used commands
+
+    ```bash
+    # cd the where the Vagrantfile file lies in
+    vagrant status
+    vagrant suspend     # sleep
+    vagrant up          # boot
+
+    vagrant halt        # shutdown
+    vagrant reload      # reboot
+    ```
+
+#### Software
