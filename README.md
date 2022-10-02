@@ -1,7 +1,7 @@
 
 ## Prep
 
-> macOS 
+> macOS
 
 #### Tools
 
@@ -82,6 +82,8 @@
 
 3. MySQL
 
+    - Get started
+
     ```bash
     # 1. Get MySQL
     sudo docker pull mysql:5.7
@@ -111,7 +113,57 @@
 
 
     # 5. Connect to MySQL-in-Docker-in-Vagrant
+    # HOST      VM LAN Addr
+    # PORT      Host (VM:Docker:Host) (guest-3306<-3306 : 3306  host:3306)
+    # USER      root
+    # PASSWORD  root (-e MYSQL_ROOT_PASSWORD=root)
     ```
+
+    - Configuration
+
+        - Ready to edit the config for MySQL 5.7 in VM (<- Docker container)
+
+        ```bash
+        # [VIRTUAL MACHINE]     [DOCKER CONTAINER]
+        # /mydata/mysql/log     /var/log/mysql
+        # /mydata/mysql/data    /var/lib/mysql
+        # /mydata/mysql/conf    /etc/mysql
+        ```
+
+        - Edit MySQL config ( `sudo vi /mydata/mysql/conf/my.cnf` )
+
+        ```ini
+        [client]
+        default-character-set=utf8
+
+        [mysql]
+        [client]
+        default-character-set=utf8
+
+        [mysql]
+        default-character-set=utf8
+
+        [mysqld]
+        init_connect='SET collation_connection = utf8_unicode_ci'
+        init_connect='SET NAMES utf8'
+        character-set-server=utf8
+        collation-server=utf8_unicode_ci
+        skip-character-set-client-handshake
+        skip-name-resolve
+        ```
+
+        - Reload new configuration
+
+        ```bash
+        sudo docker restart mysql5dot7
+        ```
+
+        - Check new configuration
+
+        ```bash
+        sudo docker exec -it mysql5dot7 /bin/bash     # VM
+        sudo cat /etc/mysql/my.cnf                    # Docker
+        ```
 
 4. Redis
 
@@ -138,6 +190,6 @@
     ```bash
     sudo docker container ps -a
     sudo docker container restart mysql5dot7
-    
+
     sudo docker exec -it mysql5dot7 /bin/bash
     ```
