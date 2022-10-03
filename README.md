@@ -217,6 +217,57 @@
     - IDEA: *Lombok*, *MyBatisX*
     - VS Code: whatever suits you
 
+#### Data
+
+> I'm using [mycli](https://github.com/dbcli/mycli/) <small>(`mycli -u root -h localhost`)</small> and [BeeKeeper](https://www.beekeeperstudio.io/get) to manage the databases
+
+- Create the database
+
+    > Reference for the [command](https://dba.stackexchange.com/questions/76788/create-a-mysql-database-with-charset-utf-8/76789#76789), the *why* for [`utf8mb4`](https://stackoverflow.com/questions/30074492/what-is-the-difference-between-utf8mb4-and-utf8-charsets-in-mysql/30074553#30074553) and [`utf8mb4_unicode_ci`](https://stackoverflow.com/questions/1036454/what-are-the-differences-between-utf8-general-ci-and-utf8-unicode-ci/1036459#1036459)
+
+    ```sql
+    CREATE DATABASE IF NOT EXISTS gulimall_pms_product
+        DEFAULT CHARACTER SET utf8mb4
+        DEFAULT COLLATE utf8mb4_unicode_ci ;
+
+    CREATE DATABASE IF NOT EXISTS gulimall_oms_order
+        DEFAULT CHARACTER SET utf8mb4
+        DEFAULT COLLATE utf8mb4_unicode_ci ;
+
+    CREATE DATABASE IF NOT EXISTS gulimall_sms_salepromo
+        DEFAULT CHARACTER SET utf8mb4
+        DEFAULT COLLATE utf8mb4_unicode_ci ;
+
+    CREATE DATABASE IF NOT EXISTS gulimall_ums_user
+        DEFAULT CHARACTER SET utf8mb4
+        DEFAULT COLLATE utf8mb4_unicode_ci ;
+
+    CREATE DATABASE IF NOT EXISTS gulimall_wms_logistics
+        DEFAULT CHARACTER SET utf8mb4
+        DEFAULT COLLATE utf8mb4_unicode_ci ;
+    ```
+
+- Load the schema
+
+    >  `cd` to where the `.sql` files are and get `mycli` installed (reference to [`source`](https://github.com/dbcli/mycli/issues/108#issuecomment-131845477))
+
+    ```sql
+    USE    gulimall_pms_product       ;
+    source gulimall_pms_product.sql   ;
+
+    USE    gulimall_oms_order         ;
+    source gulimall_oms_order.sql     ;
+
+    USE    gulimall_sms_salepromo     ;
+    source gulimall_sms_salepromo.sql ;
+
+    USE    gulimall_ums_user          ;
+    source gulimall_ums_user.sql      ;
+
+    USE    gulimall_wms_logistics     ;
+    source gulimall_wms_logistics.sql ;
+    ```
+
 -----
 
 ## References
@@ -242,4 +293,15 @@
     docker container restart mysql5dot7
 
     docker exec -it mysql5dot7 /bin/bash
+    ```
+
+3. MySQL
+
+    ```sql
+    -- Just in case you wanna start over
+    DROP DATABASE gulimall_pms_product   ;
+    DROP DATABASE gulimall_oms_order     ;
+    DROP DATABASE gulimall_sms_salepromo ;
+    DROP DATABASE gulimall_ums_user      ;
+    DROP DATABASE gulimall_wms_logistics ;
     ```
