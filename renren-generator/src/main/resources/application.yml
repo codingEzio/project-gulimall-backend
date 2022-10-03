@@ -3,6 +3,8 @@ server:
 
 # mysql
 spring:
+  main:
+    allow-circular-references: true
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
@@ -56,4 +58,3 @@ pagehelper:
 #指定数据库，可选值有【mysql、oracle、sqlserver、postgresql、mongodb】
 renren:
   database: mysql
-
