@@ -4,6 +4,15 @@ examplecode
 example
 sample
 
+### gulimall files/folders under the sub-directories ###
+
+**/mvnw
+**/mvnw.cmd
+**/.mvn
+**/target
+**/.gitignore
+
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
