@@ -206,6 +206,17 @@
     cat /etc/redis/redis.conf                # Redis container
     ```
 
+5. Maven
+
+    > AliYun mirror (for faster download) and use JDK 1.8 to compile
+
+6. Editors
+
+    > Plugins to install
+
+    - IDEA: *Lombok*, *MyBatisX*
+    - VS Code: whatever suits you
+
 -----
 
 ## References
