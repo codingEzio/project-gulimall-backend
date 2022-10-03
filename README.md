@@ -107,15 +107,6 @@
         -v /mydata/mysql/conf:/etc/mysql \
         -e MYSQL_ROOT_PASSWORD=root \
         -d mysql:5.7
-
-
-    # 3. For Vagrant
-    # Choose the network interface which is in the same LAN as your host
-
-
-    # 4. For Vagrantfile
-    # Exposing Docker-in-VM-Vagrant the port to the host
-    config.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
     ```
 
     - Configuration
@@ -136,17 +127,15 @@
         default-character-set=utf8
 
         [mysql]
-        [client]
-        default-character-set=utf8
-
-        [mysql]
         default-character-set=utf8
 
         [mysqld]
-        init_connect='SET collation_connection = utf8_unicode_ci'
         init_connect='SET NAMES utf8'
+        init_connect='SET collation_connection = utf8_unicode_ci'
+
         character-set-server=utf8
         collation-server=utf8_unicode_ci
+
         skip-character-set-client-handshake
         skip-name-resolve
         ```
