@@ -261,6 +261,30 @@
     source gulimall_wms_logistics.sql ;
     ```
 
+#### Scaffold
+
+> Backend: [*renren-fast*](https://gitee.com/renrenio/renren-fast) <br/>
+> Frontend: [*renren-fast-vue*](https://gitee.com/renrenio/renren-fast-vue)
+
+1. Load up the database for the admin <small>(renren-fast)</small>
+
+    - Create the database
+
+    ```sql
+    CREATE DATABASE IF NOT EXISTS gulimall_admin_renrenfast
+        DEFAULT CHARACTER SET utf8mb4
+        DEFAULT COLLATE utf8mb4_unicode_ci ;
+    ```
+
+    - Load the data from the `.sql` included in the [repository](https://gitee.com/renrenio/renren-fast/tree/master/db)
+
+        >  `cd` to where the `.sql` files are and get `mycli` installed (reference to [`source`](https://github.com/dbcli/mycli/issues/108#issuecomment-131845477))
+
+    ```sql
+    use    gulimall_admin_renrenfast     ;
+    source gulimall_admin_renrenfast.sql ;
+    ```
+
 -----
 
 ## References
