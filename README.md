@@ -7,12 +7,16 @@
 
 > With the help of
 >
-> - *Docker Port-mapping* (`.. run -p`<u>`3306:`</u>`3306 ..`)
-> - *Vagrantfile* (`config.vm.network "forwarded_port", guest:`<u>`3306,`</u>***`host: 3306`***)
+>> *Docker Port-mapping* (`.. run -p`<u>`3306:`</u>`3306 ..`) <br/>
+>> *Vagrantfile* (`config.vm.network "forwarded_port", guest:`<u>`3306,`</u>***`host: 3306`***)
 >
 >
 > You can connect to them using `localhost:3306` like they are in the host machine
 >> If you also have an app which uses port `3336`, just change the `host: PORT` in *Vagrantfile*
+>
+> To make the *MySQL* and *Redis* to run when you boot up the VM, add
+>> `docker update mysql5dot7 --restart=always` <br/>
+>> `docker update redis6dot16 --restart=always`
 
 1. The Foundation *Vagrant*
 
