@@ -87,7 +87,7 @@
     ```bash
     # 1. Get MySQL
     sudo docker pull mysql:5.7
-    sudo docker images
+    sudo docker images | grep mysql
 
     sudo docker container ls
     sudo docker container stop mysql5dot7
@@ -162,10 +162,48 @@
 
         ```bash
         sudo docker exec -it mysql5dot7 /bin/bash     # VM
-        sudo cat /etc/mysql/my.cnf                    # Docker
+        sudo cat /etc/mysql/my.cnf                    # MySQL container
         ```
 
 4. Redis
+
+    - Get started
+
+    ```bash
+    # 1. Get Redis
+    docker pull redis:6.0.16
+    docker images | grep redis
+
+    docker container ls
+    docker container stop redis6dot16
+    docker container rm   redis6dot16
+
+
+    # 2. Initialization before running
+    # Mapping the config in VM into the Redis container
+    mkdir -p /mydata/redis/conf
+    touch /mydata/redis/conf/redis.conf
+
+
+    # 3. Run Redis
+    docker run -p 6379:6379 --name redis6dot16 \
+        -v /mydata/redis/data:/data \
+        -v /mydata/redis/conf/redis.conf:/etc/redis/redis.conf \
+        -d redis:6.0.16 \
+        redis-server /etc/redis/redis.conf
+    ```
+
+    - Configuration
+
+    ```bash
+    # 1. Edit configuration (Redis persistence)
+    echo 'appendonly yes' > /mydata/redis/conf/redis.conf
+
+
+    # 2. Check configuration
+    docker exec -it redis6dot16 /bin/bash    # VM
+    cat /etc/redis/redis.conf                # Redis container
+    ```
 
 -----
 
