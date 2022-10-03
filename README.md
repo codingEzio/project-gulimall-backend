@@ -5,7 +5,14 @@
 
 #### Tools
 
-> Vagrant -> Docker -> \[MySQL, Redis\]
+> With the help of
+>
+> - *Docker Port-mapping* (`.. run -p`<u>`3306:`</u>`3306 ..`)
+> - *Vagrantfile* (`config.vm.network "forwarded_port", guest:`<u>`3306,`</u>***`host: 3306`***)
+>
+>
+> You can connect to them using `localhost:3306` like they are in the host machine
+>> If you also have an app which uses port `3336`, just change the `host: PORT` in *Vagrantfile*
 
 1. The Foundation *Vagrant*
 
@@ -109,13 +116,6 @@
     # 4. For Vagrantfile
     # Exposing Docker-in-VM-Vagrant the port to the host
     config.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
-
-
-    # 5. Connect to MySQL-in-Docker-in-Vagrant
-    # HOST      VM LAN Addr
-    # PORT      Host (VM:Docker:Host) (guest-3306<-3306 : 3306  host:3306)
-    # USER      root
-    # PASSWORD  root (-e MYSQL_ROOT_PASSWORD=root)
     ```
 
     - Configuration
