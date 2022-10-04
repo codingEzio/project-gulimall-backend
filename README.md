@@ -352,8 +352,8 @@
     > Modify the directory in correspondence with yours
 
     ```bash
-    PROJ_ROOT="/Users/mac/dev/ytb-projects-gulimall"
     COMP="coupon"
+    PROJ_ROOT="/Users/mac/dev/ytb-projects-gulimall"
 
     cd "${PROJ_ROOT}/renren-generator/src/main/resources/"
     cp -fv application-${COMP}.yml application.yml ;
@@ -370,6 +370,21 @@
     ```bash
     PORT=80
     open "http://localhost:${PORT}#generator.html"
+    ```
+
+4. Add the generated code to our components
+
+    > Make sure you haven't written anything new to the components!
+
+    ```bash
+    cd "/Users/mac/dev/ytb-projects-gulimall"
+
+    for comp in {coupon,member,order,product,ware}.zip;
+        do
+        unzip \
+            "dev_generatedcode/srcmain-gulimall-${comp}.zip" \
+            -d "gulimall-${comp}/src/" &> /dev/null
+    done
     ```
 
 -----
