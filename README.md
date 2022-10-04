@@ -335,12 +335,12 @@
     ORIG_CONF_GEN='template.generator.properties'
 
     # Then edit the details by your own
-    for f in application-{coupun,member,order,product,ware}.yml;
+    for f in application-{coupon,member,order,product,ware}.yml;
         do cp ${ORIG_CONF_APP} $f;
     done
 
     # Then edit the details by your own
-    for f in generator-{coupun,member,order,product,ware}.properties;
+    for f in generator-{coupon,member,order,product,ware}.properties;
         do cp ${ORIG_CONF_GEN} $f;
     done
     ```
@@ -348,9 +348,10 @@
 - Start the generation
 
     ```bash
-    COMP="coupon"
-    cp -fv application-${COMP}.yml application.yml
-    cp -fv generator-${COMP}.properties generator.properties
+    comp="coupon"
+
+    cp -fv application-${COMP}.yml application.yml ;
+    cp -fv generator-${COMP}.properties generator.properties ;
 
     mvn clean install && mvn spring-boot:run
     ```
