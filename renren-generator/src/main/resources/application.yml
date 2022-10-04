@@ -4,7 +4,7 @@ server:
 # mysql
 spring:
   main:
-    allow-circular-references: true
+    allow-circular-references: false
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
