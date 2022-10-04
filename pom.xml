@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.elliot.gulimall</groupId>
-    <artifactId>guilimall</artifactId>
+    <artifactId>gulimall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>guilimall</name>
+    <name>gulimall</name>
     <description>聚合服务</description>
 
     <packaging>pom</packaging>
