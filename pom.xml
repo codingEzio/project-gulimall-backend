@@ -6,6 +6,10 @@
     <groupId>com.elliot.gulimall</groupId>
     <artifactId>gulimall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <properties>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+    </properties>
     <name>gulimall</name>
     <description>聚合服务</description>
 
