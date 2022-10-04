@@ -71,4 +71,19 @@
 
     </dependencies>
 
+    <!-- Spring Cloud (another suite of tools for Microservices -->
+    <!-- https://github.com/alibaba/spring-cloud-alibaba/blob/2021.x/README-zh.md#如何引入依赖-->
+    <dependencyManagement>
+        <dependencies>
+            <!-- https://github.com/alibaba/spring-cloud-alibaba/wiki/版本说明#2021x-分支 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2021.0.4.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 </project>
