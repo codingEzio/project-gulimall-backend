@@ -5,6 +5,10 @@ example
 sample
 **/.DS_Store
 
+### Only used for code generation, they are of no use practically ###
+renren-generator/src/main/resources/application.yml
+renren-generator/src/main/resources/generator.properties
+
 ### gulimall files/folders under the sub-directories ###
 
 **/mvnw
