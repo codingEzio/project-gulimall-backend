@@ -387,6 +387,62 @@
     done
     ```
 
+5. Fix dependencies
+
+    - Create dedicated package to hold common dependencies
+
+    > The main theme is copying files around and `mvn clean install`
+
+    ```bash
+    cd "/Users/mac/dev/ytb-projects-gulimall"
+
+    mkdir -p \
+        gulimall-common \
+        gulimall-common/com/elliot/common/{utils,xss}/
+    ```
+
+    - `pom.xml` for *gulimall-common*
+
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <project .. >
+
+        <parent>
+            <artifactId>gulimall</artifactId>
+            <groupId>com.elliot.gulimall</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+        </parent>
+
+        <modelVersion>4.0.0</modelVersion>
+
+        <groupId>com.elliot.gulimall</groupId>
+        <artifactId>gulimall-common</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <name>gulimall-common</name>
+        <description>项目共用依赖</description>
+
+        <dependencies>
+            ...
+        </dependencies>
+
+    </project>
+    ```
+
+    - Modify `pom.xml` in other components for them to use *common dependencies*
+
+    ```xml
+    <!-- Add right after the starting section of <dependencies> -->
+    ..
+        <dependencies>
+            <dependency>
+                <groupId>com.elliot.gulimall</groupId>
+                <artifactId>gulimall-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    ..
+    ```
+
 -----
 
 ## References
