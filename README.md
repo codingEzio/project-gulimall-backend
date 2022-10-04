@@ -328,7 +328,9 @@
     */
     ```
 
-- Make copies based on the template
+###### Procedure
+
+1. Make copies based on the template
 
     ```bash
     ORIG_CONF_APP='template.application.yml'
@@ -345,15 +347,29 @@
     done
     ```
 
-- Start the generation
+2. Run the generation service
+
+    > Modify the directory in correspondence with yours
 
     ```bash
-    comp="coupon"
+    PROJ_ROOT="/Users/mac/dev/ytb-projects-gulimall"
+    COMP="coupon"
 
+    cd "${PROJ_ROOT}/renren-generator/src/main/resources/"
     cp -fv application-${COMP}.yml application.yml ;
     cp -fv generator-${COMP}.properties generator.properties ;
 
+    cd "${PROJ_ROOT}/renren-generator"
     mvn clean install && mvn spring-boot:run
+
+    cd "${PROJ_ROOT}"
+    ```
+
+3. Start the generation
+
+    ```bash
+    PORT=80
+    open "http://localhost:${PORT}#generator.html"
     ```
 
 -----
