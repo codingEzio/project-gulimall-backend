@@ -310,6 +310,51 @@
     yarn run dev
     ```
 
+#### Code Generation
+
+> Get [renren-generator](https://gitee.com/renrenio/renren-generator) and fix basic dep issues
+
+###### Snippet
+
+- Component 👐 Database
+
+    ```java
+    /*
+    gulimall-coupon     gulimall_sms_salepromo
+    gulimall-member     gulimall_ums_user
+    gulimall-order      gulimall_oms_order
+    gulimall-product    gulimall_pms_product
+    gulimall-ware       gulimall_wms_logistics
+    */
+    ```
+
+- Make copies based on the template
+
+    ```bash
+    ORIG_CONF_APP='template.application.yml'
+    ORIG_CONF_GEN='template.generator.properties'
+
+    # Then edit the details by your own
+    for f in application-{coupun,member,order,product,ware}.yml;
+        do cp ${ORIG_CONF_APP} $f;
+    done
+
+    # Then edit the details by your own
+    for f in generator-{coupun,member,order,product,ware}.properties;
+        do cp ${ORIG_CONF_GEN} $f;
+    done
+    ```
+
+- Start the generation
+
+    ```bash
+    COMP="coupon"
+    cp -fv application-${COMP}.yml application.yml
+    cp -fv generator-${COMP}.properties generator.properties
+
+    mvn clean install && mvn spring-boot:run
+    ```
+
 -----
 
 ## References
