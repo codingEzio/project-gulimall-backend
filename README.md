@@ -455,6 +455,110 @@
 >> Names like *Service Registration*: the name of the solution for the problems we would face <small>(in this context: letting different services find each other)</small> <br/>
 >> Names like *Nacos*: the name of a tool which delivers the solutions for at least one of the problems you would face
 
+### *Nacos*
+
+- Solution
+  - Service Registration
+  - Service Discovery
+  - Configuration Management
+
+- Usage Overview
+
+    > A server running at the background plus a few registered services
+
+##### Service Discovery
+
+- Setup for the Server
+
+  - Download the [*Nacos* server](https://github.com/alibaba/nacos/releases)
+
+    > **Do not** put these under your version control, which would exceed the `100MB` limit, as you need to handle the Git-LFS related issues
+
+    ```bash
+    # Download
+    wget \
+        -O nacos-server-2.1.1.zip \
+        https://github.com/alibaba/nacos/releases/download/2.1.1/nacos-server-2.1.1.zip
+
+
+    # Extract
+    unzip nacos-server-2.1.1.zip -d .
+    ```
+
+  - Run
+
+    ```bash
+    # Start
+    bash ./nacos/bin/startup.sh -m standalone
+
+
+    # Check if it started correctly
+    cat ./nacos/logs/start.out
+    ```
+
+- Setup for the Client
+
+  - Download the dependency
+
+    > Add this to the `pom.xml` inside the *gulimall-common* package
+
+    ```xml
+    <!-- Right after where the level 'mysql-connector-java' is in -->
+    <!-- Other components would be able to use this as well! -->
+    ..
+        <dependency>
+            <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+    ..
+    ```
+
+  - Configuration
+
+    > Add this to whichever components you wanna test on
+
+    ```yml
+    # application.yml
+    spring:
+      application:
+        name: gulimall-COMPONENT
+      ..
+        cloud:
+          nacos:
+            discovery:
+              server-addr=127.0.0.1:8848
+    ```
+
+  - Annotation
+
+    > Add this to whichever components you wanna test on
+
+    ```java
+    // src/main/java -> PACKAGE -> Gulimall 👉COMPONENT👈 Application.java
+    import .. ;
+    import .. ;
+    import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+    @ ..
+    @ ..
+    @EnableDiscoveryClient
+    public class GulimallCouponApplication { .. }
+    ```
+
+- Get the clients running (registering)
+
+    ```bash
+    # Go to the root folder of whichever components you wanna test on
+    ./mvnw spring-boot:run
+
+
+    # Now you could go to localhost:8848 to check if they registered correctly
+    # Both the username and the password are 'nacos' (lowercase)
+    ```
+
+##### Configuration Management
+
 -----
 
 ## References
