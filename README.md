@@ -445,6 +445,18 @@
 
 -----
 
+## Microservice in Practice
+
+> For non-microservices, only three parts were required, the frondend, the database and the backend. But when the business <u>grows larger</u> and <u>more complex</u>, you would need an efficient and effective way to manage the *scale* and *complexity*.
+>
+> And the backend is where we targeting on, to make it not just scalable, but also manageable. Technologies which were provided by *Spring Cloud* or *Spring Cloud Alibaba* is the set of tools which helps us to to do that <small>(scalable and manageable)</small>.
+>
+> Don't be scared by the terminologies
+>> Names like *Service Registration*: the name of the solution for the problems we would face <small>(in this context: letting different services find each other)</small> <br/>
+>> Names like *Nacos*: the name of a tool which delivers the solutions for at least one of the problems you would face
+
+-----
+
 ## References
 
 #### Tools
