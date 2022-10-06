@@ -458,9 +458,10 @@
 ### *Nacos*
 
 - Solution
-  - Service Registration
-  - Service Discovery
+  - [x] Service Registration
+  - [x] Service Discovery
   - Configuration Management
+  - [x] Load Balancing <small>(just the setup in term of progress)</small>
 
 - Usage Overview
 
@@ -556,6 +557,36 @@
     # Now you could go to localhost:8848 to check if they registered correctly
     # Both the username and the password are 'nacos' (lowercase)
     ```
+
+##### Load Balancing
+
+> Basically we are choosing the one included in [*Nacos* instead of *Netflix Ribbon*](https://spring-cloud-alibaba-group.github.io/github-pages/2021/en-us/index.html#_spring_cloud_loadbalancer)
+
+- Add this to the `pom.xml` in the `gulimall-common` so all components could use it
+
+```xml
+..
+    <dependency>
+        <!-- Already added this, showing you where to add '<exclusion>' tag -->
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+
+        <!-- Excluding this Load Balancer, we'll use the one down below -->
+        <exclusions>
+            <exclusion>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-netflix-ribbon</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        <version>2.2.9.RELEASE</version>
+    </dependency>
+..
+```
 
 ### *OpenFeign*
 
