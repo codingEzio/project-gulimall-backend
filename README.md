@@ -557,7 +557,124 @@
     # Both the username and the password are 'nacos' (lowercase)
     ```
 
-##### Configuration Management
+### *OpenFeign*
+
+- Solution
+  - A way for components calling each other (HTTP requests, but enhanced)
+
+- Usage Overview
+    > N/A
+
+##### Configuration
+
+> Add this to the `pom.xml` under your individual components' folder
+
+```xml
+..
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+..
+```
+
+##### Components to be called
+
+> `gulimall-coupon` (as for `gulimallcoupon`, it's the lowest level package's name)
+
+- A new method inside `CouponController.java`
+
+    ```java
+    @ ..
+    @RequestMapping("gulimallcoupon/coupon")
+    public class CouponController {
+        @Autowired
+        private CouponService couponService;
+
+        // This is what we added, any other code exist already
+        @RequestMapping("/member/list")
+        public R membercoupons() {
+            CouponEntity couponEntity = new CouponEntity();
+            couponEntity.setCouponName("30% off");
+
+            return R.ok().put("coupons", Arrays.asList(couponEntity));
+        }
+    }
+    ```
+
+##### Components who do the calling
+
+> `gulimall-member`
+
+- A central place to put available *calling* methods for the caller
+
+    ```bash
+    cd './gulimall-member/ .. /com/elliot/gulimall/gulimallmember/'
+
+    mkdir -p feign
+    ```
+
+- Where to find the callers
+
+    ```java
+    import org.springframework.cloud.openfeign.EnableFeignClients;
+
+    @ ..
+    @ ..
+    @EnableFeignClients(basePackages = "com.elliot.gulimall.gulimallmember.feign")
+    public class GulimallMemberApplication { .. }
+    ```
+
+- Write an *interface*
+
+    ```java
+    import com.elliot.common.utils.R;
+    import org.springframework.cloud.openfeign.FeignClient;
+    import org.springframework.web.bind.annotation.RequestMapping;
+
+    @FeignClient("gulimallcoupon")
+    public interface CouponFeignService {
+
+        @RequestMapping("gulimallcoupon/coupon/member/list")
+        public R membercoupons();
+    }
+    ```
+
+##### `gulimallmember` Calls `gulimallcoupon`
+
+- Test code
+
+    ```java
+    @ ..
+    @RequestMapping("gulimallmember/member")
+    public class MemberController {
+        ..
+
+        @Autowired
+        private CouponFeignService couponFeignService;
+
+        @RequestMapping("/coupons")
+        public R test() {
+            MemberEntity memberEntity = new MemberEntity();
+            memberEntity.setNickname("Dickson");
+
+            R membercoupons = couponFeignService.membercoupons();
+
+            return R.ok()
+                    .put("member", memberEntity)
+                    .put("coupons", membercoupons.get("coupons"));
+        }
+    ```
+
+- Check the result
+
+    ```bash
+    PORT_MEMBER=8000
+    ENDPOINT="http://localhost:${PORT_MEMBER}/gulimallmember/member/coupons"
+
+    curl "${ENDPOINT}" | jq '.coupons [] .couponName'    # "30% off"
+    curl "${ENDPOINT}" | jq '.member .nickname'          # "Dickson"
+    ```
 
 -----
 
