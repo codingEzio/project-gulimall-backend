@@ -5,6 +5,8 @@ example
 sample
 **/.DS_Store
 
+.vagrant/machines/default
+
 ### Only used for code generation, they are of no use practically ###
 renren-generator/src/main/resources/application.yml
 renren-generator/src/main/resources/generator.properties
