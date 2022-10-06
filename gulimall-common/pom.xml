@@ -69,7 +69,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Nacos: Server Registration, Configuration Management -->
+        <!-- Nacos: Server Registration -->
         <!-- we put it here as every component here needs to regis and else -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

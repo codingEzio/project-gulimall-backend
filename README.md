@@ -460,14 +460,14 @@
 - Solution
   - [x] Service Registration
   - [x] Service Discovery
-  - Configuration Management
   - [x] Load Balancing <small>(just the setup in term of progress)</small>
+  - Configuration Management
 
 - Usage Overview
 
     > A server running at the background plus a few registered services
 
-##### Service Discovery
+##### Service Discovery & Registration
 
 - Setup for the Server
 
