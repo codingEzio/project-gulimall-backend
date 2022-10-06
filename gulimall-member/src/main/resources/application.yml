@@ -1,6 +1,6 @@
 spring:
   application:
-    name: gulimallmember
+    name: nacos-gulimall-member
   datasource:
     username: root
     password: root

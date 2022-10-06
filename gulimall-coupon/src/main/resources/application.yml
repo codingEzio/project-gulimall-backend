@@ -1,6 +1,6 @@
 spring:
   application:
-    name: gulimallcoupon
+    name: nacos-gulimall-coupon
   datasource:
     username: root
     password: root
