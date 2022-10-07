@@ -17,3 +17,7 @@ mybatis-plus:
       id-type: auto
 server:
   port: 7000
+coupon:
+  user:
+    name: zhangsan
+    age: 38
