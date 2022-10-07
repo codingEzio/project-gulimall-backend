@@ -562,7 +562,7 @@
 
 > Basically we are choosing the one included in [*Nacos* instead of *Netflix Ribbon*](https://spring-cloud-alibaba-group.github.io/github-pages/2021/en-us/index.html#_spring_cloud_loadbalancer)
 
-- Add this to the `pom.xml` in the `gulimall-common` so all components could use it
+- Add this to the `pom.xml` in the `gulimall-common` so all the components could use it
 
 ```xml
 ..
@@ -587,6 +587,88 @@
     </dependency>
 ..
 ```
+
+##### Configuration Management
+
+> Basically we'll let components be able to send a <small>(HTTP/RPC)</small> request to upload the configurations
+
+###### Preparation
+
+1. Add this to the `pom.xml` in the `gulimall-common` so all the components could use it
+
+```xml
+..
+    <!-- Nacos: Configuration Management -->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+..
+```
+
+2. Add *bootstrap.properties* to all the components
+
+    - Create
+
+    ```bash
+    touch gulimall-{coupon,member,order,product,ware}/src/main/resources/bootstrap.properties
+    ```
+
+    - Edit
+
+    ```ini
+    # It shall be the same as the one you defined in the application.properties (or .yml)
+    spring.application.name=nacos-gulimall-coupon
+
+    spring.cloud.nacos.config.server-addr=127.0.0.1:8848
+    ```
+
+###### Apply Configuration Changes: One
+
+> The procedure is `edit config`, `deploy` then `send request` to see the changes being made. BUT! If you have **multiple machines** <small>(each with their own different config)</small>, you would have to do the same process **over and over**!
+
+- Config file
+
+    > Here we use the `gulimall-coupon` component to test our proof of concept
+
+    ```yml
+    # application.yml
+    coupon:
+      user:
+        name: zhangsan
+        age: 38
+    ```
+
+- Code which reads from the config file
+
+    > The `@Value` here is used either for reading config keys `${}` or templates `#{}`
+
+    ```java
+    import .. ;
+    import org.springframework.beans.factory.annotation.Value;
+
+    @ ..
+    @ ..
+    public class CouponController {
+        @Value("${coupon.user.name}")
+        private String name;
+
+        @Value("${coupon.user.age}")
+        private String age;
+
+        @Value("${spring.datasource.url}")
+        private String dburl;
+
+        // Test if it would read the contents from the config file
+        @RequestMapping("/test")
+        public R test() {
+            return R.ok()
+                    .put("name", name)
+                    .put("age", age)
+                    .put("dburl", dburl);
+        }
+    }
+    ```
 
 ### *OpenFeign*
 
