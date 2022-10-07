@@ -90,6 +90,13 @@
             <version>2.2.9.RELEASE</version>
         </dependency>
 
+
+        <!-- Nacos: Configuration Management -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
     </dependencies>
 
     <!-- Spring Cloud (another suite of tools for Microservices -->
