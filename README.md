@@ -592,9 +592,11 @@
 
 > Basically we'll let components be able to send a <small>(HTTP/RPC)</small> request to upload the configurations
 
-###### Preparation
+###### Configuration
 
-1. Add this to the `pom.xml` in the `gulimall-common` so all the components could use it
+> Followed these steps from the [Nacos documentation](https://nacos.io/en-us/docs/quick-start-spring-cloud.html)
+
+1. Add this to the `pom.xml` in the `gulimall-common` so all the components are able to use them
 
 ```xml
 ..
@@ -603,41 +605,67 @@
         <groupId>com.alibaba.cloud</groupId>
         <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
     </dependency>
-..
+
+
+    <!-- Dedicated for bootstrap.properties which Nacos use it to configure -->
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        <version>3.1.4</version>
+    </dependency>
 ```
 
-2. Add *bootstrap.properties* to all the components
+2. Config file *bootstrap.properties* for *Nacos* configuration management
 
-    - Create
+    > *Nacos* requires this to configure the config management ([their doc](https://nacos.io/en-us/docs/quick-start-spring-cloud.html) references it)
 
     ```bash
-    touch gulimall-{coupon,member,order,product,ware}/src/main/resources/bootstrap.properties
+    touch \
+        gulimall-{coupon,member,order,product,ware}/src/main/resources/bootstrap.yml
     ```
 
-    - Edit
+3. Configuration for/with `bootstrap.yml`
 
-    ```ini
-    # It shall be the same as the one you defined in the application.properties (or .yml)
-    spring.application.name=nacos-gulimall-coupon
+    > Two files were your concern: `application.yml` and the `bootstrap.yml`
 
-    spring.cloud.nacos.config.server-addr=127.0.0.1:8848
-    ```
-
-###### Apply Configuration Changes: One
-
-> The procedure is `edit config`, `deploy` then `send request` to see the changes being made. BUT! If you have **multiple machines** <small>(each with their own different config)</small>, you would have to do the same process **over and over**!
-
-- Config file
-
-    > Here we use the `gulimall-coupon` component to test our proof of concept
+    - [Enable](https://docs.spring.io/spring-cloud-config/docs/current/reference/html/#config-first-bootstrap) `bootstrap`
 
     ```yml
     # application.yml
-    coupon:
-      user:
-        name: zhangsan
-        age: 38
+
+    spring:
+      cloud:
+        bootstrap:
+          enabled: true
     ```
+
+    - [Configure](https://nacos.io/en-us/docs/quick-start-spring-cloud.html) `bootstrap`
+
+    > Modify the `name` and the `prefix` for each components as needed
+
+    ```yaml
+    # bootstrap.yml
+
+    spring:
+      application:
+        # Should be the same as the one you defined in application.yml
+        name: nacos-gulimall-coupon
+      cloud:
+        nacos:
+          config:
+            server-addr: 127.0.0.1:8848
+
+            # Combining these two, you get the data ID for you to add to the
+            # Nacos configuration center for hot-reloading config, eventually,
+            # you can put 'nacosconfig-coupon.yaml' in the configuration server
+            # for future update
+            prefix: nacosconfig-coupon
+            file-extension: yaml
+    ```
+
+###### Setup for *Hot-reload*
+
+> Without this, the procedure for updating the configuration is `edit config`, `deploy` then `send request` to see the changes being made. BUT! If you have **multiple machines** <small>(each with their own different config)</small>, you would have to do the same process **over and over**!
 
 - Code which reads from the config file
 
@@ -645,27 +673,32 @@
 
     ```java
     import .. ;
+    import .. ;
     import org.springframework.beans.factory.annotation.Value;
+    import org.springframework.cloud.context.config.annotation.RefreshScope;
 
     @ ..
     @ ..
+    @RefreshScope
     public class CouponController {
-        @Value("${coupon.user.name}")
+
+        // We gotta set a default value for the keys here, since some of the
+        // config would only be available when the configuration server is
+        // online (at least that's my experience: errors being raised by
+        // Spring Boot when I'm not setting up the default value).
+
+        @Value("${coupon.user.name:nobody}")  // default for name: 'nobody'
         private String name;
 
-        @Value("${coupon.user.age}")
+        @Value("${coupon.user.age:1}")        // default for age: 1
         private String age;
-
-        @Value("${spring.datasource.url}")
-        private String dburl;
 
         // Test if it would read the contents from the config file
         @RequestMapping("/test")
         public R test() {
             return R.ok()
                     .put("name", name)
-                    .put("age", age)
-                    .put("dburl", dburl);
+                    .put("age", age);
         }
     }
     ```
