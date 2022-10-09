@@ -97,6 +97,18 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
+        <!--
+            The way of putting properties in bootstrap.properties is outdated,
+            yet Nacos (configuration management) requires, so we have to add
+            this dependency to "patch" the abandoned way to get config from
+            application.properties.
+        -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <version>3.1.4</version>
+        </dependency>
+
     </dependencies>
 
     <!-- Spring Cloud (another suite of tools for Microservices -->
